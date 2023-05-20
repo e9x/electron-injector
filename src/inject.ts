@@ -45,7 +45,9 @@ function generateHook(
     `const bw = new BrowserWindow({ ...options, webPreferences: {  ...webPreferences, preload: customPreload, ...${JSON.stringify(
       webPreferences
     )} } });` +
-    (devTools ? 'bw.webContents.openDevTools({ mode: "undocked" });' : "") +
+    (devTools
+      ? 'bw.webContents.openDevTools({ active: true, mode: "undocked" });'
+      : "") +
     'bw.webContents.on("ipc-message-sync", (event, channel) => { if (channel === "original-preload") event.returnValue = webPreferences.preload });' +
     "return bw;" +
     "};" +
