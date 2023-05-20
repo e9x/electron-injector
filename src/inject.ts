@@ -38,6 +38,10 @@ function generateHook(
     `const customPreload = resolve(__dirname, ${JSON.stringify(preload)});` +
     "function hooked(options = {}) {" +
     "const webPreferences = options.webPreferences || {};" +
+    // don't inject into splash windows
+    // we might break the client by disabling nodeIntegration
+    // official krunker.io client has nodeIntegration enabled
+    'if (webPreferences.preload && String(webPreferences.preload).includes("splash")) return new BrowserWindow(options);' +
     `const bw = new BrowserWindow({ ...options, webPreferences: {  ...webPreferences, preload: customPreload, ...${JSON.stringify(
       webPreferences
     )} } });` +
