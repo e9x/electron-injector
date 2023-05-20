@@ -191,7 +191,8 @@ export function resolvePath(folder: Folder, path: string) {
 
   let depth: Dirent = folder;
 
-  for (const file of pathname.split("/").slice(1)) {
+  for (const file of pathname.slice(1).split("/")) {
+    if (!file.length) return depth;
     if (!isFolder(depth))
       throw new TypeError("Attempt to read file inside file");
     depth = depth.files[file];

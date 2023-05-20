@@ -18,27 +18,36 @@ export enum SourceType {
 
 function generateHook(
   preload: string,
-  openDevTools: boolean,
+  devTools: boolean,
   disableWebSecurity: boolean
 ) {
+  const webPreferences: Record<string, unknown> = {
+    nodeIntegration: false,
+    sandbox: false,
+    contextIsolation: false,
+  };
+
+  if (disableWebSecurity) webPreferences.webSecurity = false;
+  if (devTools) webPreferences.devtools = true;
+
   return (
     "(() => {" +
     '"use strict";' +
-    'const { join } = require("path");' +
+    'const { resolve } = require("path");' +
     'const { BrowserWindow } = require("electron");' +
+    `const customPreload = resolve(__dirname, ${JSON.stringify(preload)});` +
+    "function hooked(options = {}) {" +
+    "const webPreferences = options.webPreferences || {};" +
+    `const bw = new BrowserWindow({ ...options, webPreferences: {  ...webPreferences, preload: customPreload, ...${JSON.stringify(
+      webPreferences
+    )} } });` +
+    (devTools ? 'bw.webContents.openDevTools({ mode: "undocked" });' : "") +
+    'bw.webContents.on("ipc-message-sync", (event, channel) => { if (channel === "original-preload") event.returnValue = webPreferences.preload });' +
+    "return bw;" +
+    "};" +
     "const electronModule = require.cache.electron;" +
     "const electronExports = electronModule.exports;" +
     "const descs = Object.getOwnPropertyDescriptors(electronExports);" +
-    `const customPreload = join(__dirname, ${JSON.stringify(preload)});` +
-    "function hooked(options) {" +
-    "const oldPreload = options && options.webPreferences ? options.webPreferences.preload : undefined;" +
-    `const bw = new BrowserWindow({ ...(options || {}), webPreferences: {  ...(options.webPreferences || {}), preload: customPreload, sandbox: false${
-      disableWebSecurity ? ", webSecurity: false" : ""
-    } } });` +
-    (openDevTools ? 'bw.webContents.openDevTools({ mode: "undocked" });' : "") +
-    'bw.webContents.on("ipc-message-sync", (event, channel) => { if (channel === "original-preload") event.returnValue = oldPreload; });' +
-    "return bw;" +
-    "};" +
     "descs.BrowserWindow.get = () => hooked;" +
     "const newExports = Object.defineProperties({}, descs);" +
     'Object.defineProperty(electronModule, "exports", { get: () => newExports, configurable: true, enumerable: true });' +
@@ -50,7 +59,7 @@ export async function injectScript(
   blob: Blob,
   sourceType: SourceType,
   value: string,
-  openDevTools: boolean,
+  devTools: boolean,
   disableWebSecurity: boolean
 ) {
   const asar = await openAsar(blob);
@@ -78,20 +87,23 @@ export async function injectScript(
     'const originalPreload = require("electron").ipcRenderer.sendSync("original-preload");' +
     "if (originalPreload) require(originalPreload);";
 
-  const main = generateHook(preloadFile, openDevTools, disableWebSecurity);
+  const main = generateHook(preloadFile, devTools, disableWebSecurity);
 
   const pkgFile = resolvePath(asar, "package.json");
-  if (isFolder(pkgFile)) throw new Error("package.json was a folder");
+  if (isFolder(pkgFile)) throw new TypeError("package.json was a folder");
 
   const pkg = JSON.parse(await asar.getFile(pkgFile).text()) as ElectronPackage;
 
   const mainFile = resolvePath(asar, pkg.main);
+  if (isFolder(mainFile)) throw new TypeError("entry point was a folder");
 
-  if (isFolder(mainFile)) throw new Error("entry point was a folder");
+  const mainDir = resolvePath(asar, `${pkg.main}/..`);
+  if (!isFolder(mainDir))
+    throw new TypeError("failure finding entry point dir");
 
   const mainJS = await asar.getFile(mainFile).text();
 
-  await createFile(asar, preloadFile, new Blob([preload]));
+  await createFile(mainDir, preloadFile, new Blob([preload]));
 
   await modifyFile(mainFile, new Blob([main + mainJS]));
 

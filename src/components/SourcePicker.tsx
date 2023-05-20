@@ -101,7 +101,7 @@ export default function SourcePicker({
     { blob: Blob; name: string } | undefined
   >();
   const [busy, setBusy] = useState(false);
-  const [openDevTools, setOpenDevTools] = useState(false);
+  const [devTools, setDevTools] = useState(false);
   const [disableWebSecurity, setDisableWebSecurity] = useState(false);
   const { getRootProps, getInputProps, isFocused, isDragAccept, isDragReject } =
     useDropzone({
@@ -127,7 +127,7 @@ export default function SourcePicker({
 
     setBusy(true);
 
-    injectScript(selectedAsar, type, value, openDevTools, disableWebSecurity)
+    injectScript(selectedAsar, type, value, devTools, disableWebSecurity)
       .then((blob) => {
         setOutput({
           name: `injected.${selectedAsar.name}`,
@@ -293,10 +293,10 @@ export default function SourcePicker({
             <input
               className="form-check-input"
               type="checkbox"
-              defaultChecked={openDevTools}
-              onChange={(e) => setOpenDevTools(e.currentTarget.checked)}
+              defaultChecked={devTools}
+              onChange={(e) => setDevTools(e.currentTarget.checked)}
             />
-            Open DevTools
+            DevTools
           </label>
         </div>
         <div className="form-check">
