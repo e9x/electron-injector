@@ -54,6 +54,26 @@ function App() {
         )}
       </div>
       <SourcePicker selectedAsar={selectedAsar} />
+      <footer style={{ marginTop: "40px" }}>
+        <div className="row">
+          <div className="col-lg-12">
+            <ul className="list-unstyled">
+              <li>
+                <a href="https://github.com/e9x/electron-injector">
+                  Source Code
+                </a>
+              </li>
+            </ul>
+            <p>
+              Code released under the{" "}
+              <a href="https://github.com/e9x/electron-injector/blob/master/LICENSE">
+                ISC License
+              </a>
+              .
+            </p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
