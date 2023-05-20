@@ -203,10 +203,17 @@ export function resolvePath(folder: Folder, path: string) {
 }
 
 export async function openAsar(blob: Blob) {
-  const header = blob.slice(0, 8);
-  const rootSize = new DataView(await header.arrayBuffer()).getUint32(4, true);
+  const headerSize = new DataView(
+    await blob.slice(0, 8).arrayBuffer()
+  ).getUint32(4, true);
 
-  const root = JSON.parse(await blob.slice(16, 8 + rootSize).text()) as Folder;
+  const payloadSize = new DataView(
+    await blob.slice(8, 16).arrayBuffer()
+  ).getUint32(4, true);
 
-  return new Asar(blob, rootSize, root);
+  const header = await blob.slice(16, 16 + payloadSize).text();
+
+  const root = JSON.parse(header) as Folder;
+
+  return new Asar(blob, headerSize, root);
 }
