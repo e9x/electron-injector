@@ -2,6 +2,8 @@
 
 A web-based Asar preload injector.
 
+https://injector.sys32.dev/
+
 See [how it works](./How-it-works.md)
 
 ## Features
