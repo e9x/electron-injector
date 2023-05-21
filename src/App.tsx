@@ -20,6 +20,13 @@ function App() {
   return (
     <div className="container mt-5">
       <h1>Electron Injector</h1>
+      <p>
+        Before using this tool, please check out our{" "}
+        <a href="https://github.com/e9x/electron-injector/tree/master#tutorials">
+          Tutorials
+        </a>{" "}
+        page for important step-by-step guidance.
+      </p>
       <div
         {...getRootProps({
           className: dropzoneStyles.dropzone,
