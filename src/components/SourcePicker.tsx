@@ -183,7 +183,7 @@ export default function SourcePicker({
           <InjectButton
             busy={busy}
             pickedAsar={selectedAsar !== undefined}
-            onClick={() => handleInject(SourceType.code, url)}
+            onClick={() => handleInject(SourceType.code, code)}
           />
         </>
       ),
