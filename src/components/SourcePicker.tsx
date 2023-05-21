@@ -130,7 +130,7 @@ export default function SourcePicker({
     injectScript(selectedAsar, type, value, devTools, disableWebSecurity)
       .then((blob) => {
         setOutput({
-          name: selectedAsar.name,
+          name: "app.asar",
           blob,
         });
         setActiveTab(3); // go to output tab
