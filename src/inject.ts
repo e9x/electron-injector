@@ -106,6 +106,11 @@ export async function injectScript(
 
   const mainJS = await asar.getFile(mainFile).text();
 
+  if (preloadFile in mainDir.files)
+    throw new TypeError(
+      "Asar is already injected. Remove your modifications to the Asar before trying to inject."
+    );
+
   await createFile(mainDir, preloadFile, new Blob([preload]));
 
   await modifyFile(mainFile, new Blob([main + mainJS]));

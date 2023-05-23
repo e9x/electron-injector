@@ -135,6 +135,10 @@ export default function SourcePicker({
         });
         setActiveTab(3); // go to output tab
       })
+      .catch((err) => {
+        console.error(err);
+        alert(err instanceof Error ? err.message : String(err));
+      })
       .finally(() => setBusy(false));
   };
 
