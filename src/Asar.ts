@@ -55,12 +55,7 @@ export async function modifyFile(file: File, newValue: Blob) {
   }
 }
 
-export async function createFile(
-  folder: Folder,
-  name: string,
-  newValue: Blob,
-  integrity = false
-) {
+export async function createFile(newValue: Blob, integrity = false) {
   const file: File = {
     newValue,
     size: newValue.size,
@@ -77,8 +72,6 @@ export async function createFile(
       hash,
     };
   }
-
-  folder.files[name] = file;
 
   return file;
 }

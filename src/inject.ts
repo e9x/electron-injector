@@ -111,8 +111,7 @@ export async function injectScript(
       "Asar is already injected. Remove your modifications to the Asar before trying to inject."
     );
 
-  await createFile(mainDir, preloadFile, new Blob([preload]));
-
+  mainDir.files[preloadFile] = await createFile(new Blob([preload]));
   await modifyFile(mainFile, new Blob([main + mainJS]));
 
   return await compileAsar(asar);
