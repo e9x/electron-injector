@@ -19,7 +19,9 @@ See [how it works](./How-it-works.md)
 https://github.com/e9x/electron-injector/assets/76465669/981ff862-940c-4a6c-bfe7-1cfb787511cd
 
 > 🛑 Make sure you backup your Asar file. 🛑
+
 > 🛑 Make sure you only upload your backup of your Asar file! 🛑
+
 > 🛑 Always remove your modifications from the Asar before uploading. Never upload your injected "app.asar" and try to inject it twice. 🛑
 
 1. Go to https://injector.sys32.dev/
@@ -48,7 +50,9 @@ https://github.com/e9x/electron-injector/assets/76465669/981ff862-940c-4a6c-bfe7
 https://github.com/e9x/electron-injector/assets/76465669/98e16584-cfeb-40d8-bb48-7f5e37ceb83f
 
 > 🛑 Make sure you backup your Asar file. 🛑
+
 > 🛑 Make sure you only upload your backup of your Asar file! 🛑
+
 > 🛑 Always remove your modifications from the Asar before uploading. Never upload your injected "app.asar" and try to inject it twice. 🛑
 
 1. Go to https://injector.sys32.dev/
