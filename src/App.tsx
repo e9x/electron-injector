@@ -74,7 +74,7 @@ function App() {
             <p>
               Code released under the{" "}
               <a href="https://github.com/e9x/electron-injector/blob/master/LICENSE">
-                ISC License
+                GPLv3 License
               </a>
               .
             </p>
