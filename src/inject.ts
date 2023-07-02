@@ -77,8 +77,8 @@ export async function injectScript(
           value + "\n//# sourceURL=injected"
         )}) } catch (err) { console.error(err) }`
       : `for (const src of ${JSON.stringify(
-          value.split(",").map((val) => val.trim())
-        )}) try {` +
+          value.split(",").map((val) => btoa(val.trim()))
+        )}.map(e => atob(e))) try {` +
         "const http = new XMLHttpRequest();" +
         'http.open("GET", src, false);' +
         "http.send();" +
