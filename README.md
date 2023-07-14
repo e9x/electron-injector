@@ -22,7 +22,7 @@ https://github.com/e9x/electron-injector/assets/76465669/981ff862-940c-4a6c-bfe7
 
 > 🛑 Always remove your modifications from the Asar before uploading. Never upload your injected "app.asar" and try to inject it twice. 🛑
 
-1. Go to https://injector.sys32.dev/
+1. Go to https://injector.krunker.win/
 2. Right click a shortcut to the Electron program
 3. Select "Open file location"
 4. Open the "resources" folder
@@ -53,7 +53,7 @@ https://github.com/e9x/electron-injector/assets/76465669/98e16584-cfeb-40d8-bb48
 
 > 🛑 Always remove your modifications from the Asar before uploading. Never upload your injected "app.asar" and try to inject it twice. 🛑
 
-1. Go to https://injector.sys32.dev/
+1. Go to https://injector.krunker.win/
 2. Right click a shortcut to the Electron program
 3. Select "Open file location"
 4. Open the "resources" folder
@@ -79,7 +79,7 @@ https://github.com/e9x/electron-injector/assets/76465669/72cd4d62-4878-4f47-b228
 
 ## Hosting quickstart
 
-This is to host https://injector.sys32.dev/ locally.
+This is to host https://injector.krunker.win/ locally.
 
 ```sh
 git clone https://github.com/e9x/client-injector
